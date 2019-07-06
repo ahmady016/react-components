@@ -1,4 +1,8 @@
 import React from 'react'
+import addExtensions from './extensions'
+import RollDice from './RollDice';
+
+addExtensions()
 
 export default function App () {
   return (
@@ -7,7 +11,9 @@ export default function App () {
         <h1>React Components</h1>
         <hr />
       </header>
-      <div className='container' />
+      <div className='container text-center'>
+        <RollDice />
+      </div>
     </>
   )
 }
