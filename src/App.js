@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import addExtensions from './extensions'
 import RollDice from './roll-dice/RollDice';
+import YahtzeeGame from './yahtzee/YahtzeeGame';
 
 addExtensions()
 
@@ -12,7 +14,8 @@ export default function App () {
         <hr />
       </header>
       <div className='container text-center'>
-        <RollDice />
+        {/* <RollDice /> */}
+        <YahtzeeGame />
       </div>
     </>
   )
