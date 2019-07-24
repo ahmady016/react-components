@@ -10,11 +10,11 @@ const animation = props =>
 const Die = styled.i`
   margin: 0.5rem 1rem;
   padding: 0.25rem;
-  font-size: 8rem;
+  font-size: ${ ({ size }) => size+'rem' };
   color: #f90;
   animation: ${animation};
 `
 
-export default function Dice ({ face = 'one', isRolling = false }) {
-  return <Die className={`fas fa-dice-${face}`} isRolling={isRolling} />
+export default function Dice ({ face = 'one', isRolling = false, size = 8 }) {
+  return <Die className={`fas fa-dice-${face}`} isRolling={isRolling} size={size} />
 }

@@ -12,6 +12,7 @@ const YahtzeeWrapper = styled.div`
 
 const DICES_LENGTH = 5
 const ROLLS_LENGTH = 3
+const score = 0
 const dices = Array.from({ length: DICES_LENGTH }).fill({
   value: 1,
   locked: false
@@ -88,15 +89,15 @@ function Dices () {
   return (
     <div className='card w-100'>
       <div className='card-header'>
-        <h5 className='card-title'>Yahtzee Game</h5>
+        <h5 className='card-title display-4'>Yahtzee Game</h5>
       </div>
       <div className='card-body'>
         {dices.map(dice => (
-          <Dice face={getFace(dice.value)} />
+          <Dice face={getFace(dice.value)} size={6} />
         ))}
       </div>
       <div className='card-footer'>
-        <button className='btn btn-primary btn-lg'>Roll</button>
+        <button className='btn btn-success btn-lg w-25'>Roll</button>
       </div>
     </div>
   )
@@ -106,13 +107,13 @@ function ScoreBoard () {
   return (
     <div className='card w-100'>
       <div className='card-header'>
-        <h5 className='card-title'>Your Score:</h5>
+        <h3 className='card-title'>Your Score: {score}</h3>
       </div>
       <div className='card-body'>
         <ul className='list-group'>
           {scores.map(score => (
-            <li className='list-group-item flex-between'>
-              <span>{score.name.replace('_', ' ')}</span>
+            <li className='list-group-item flex-between pointer'>
+              <span>{score.name.replace(/_/g, ' ')}</span>
               <span>{score.value === -1 ? score.description : score.value}</span>
             </li>
           ))}
