@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { rotate } from './cssAnimations'
+import { rotate } from '../_shared/cssAnimationss'
 
 const animation = props =>
   props.isRolling

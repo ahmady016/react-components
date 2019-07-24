@@ -1,6 +1,6 @@
 import React from 'react'
 import addExtensions from './extensions'
-import RollDice from './RollDice';
+import RollDice from './roll-dice/RollDice';
 
 addExtensions()
 
