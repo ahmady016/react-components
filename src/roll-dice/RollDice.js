@@ -2,6 +2,8 @@ import React from 'react'
 import Dice from './Dice';
 import styled from 'styled-components'
 
+import { faces } from '../_shared';
+
 const DiceWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -13,8 +15,6 @@ const Button = styled.button`
   height: 3.5rem;
   margin: 1.5rem 0.5rem;
 `;
-
-const faces = [ 'one', 'two', 'three', 'four', 'five', 'six' ]
 
 export default function RollDice() {
   const [die1, setDie1] = React.useState('one')

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { rotate } from '../_shared/cssAnimationss'
+import { rotate } from '../_shared/cssAnimations'
 
 const animation = props =>
   props.isRolling
@@ -15,6 +15,6 @@ const Die = styled.i`
   animation: ${animation};
 `
 
-export default function Dice ({ face = 'one', isRolling }) {
+export default function Dice ({ face = 'one', isRolling = false }) {
   return <Die className={`fas fa-dice-${face}`} isRolling={isRolling} />
 }
