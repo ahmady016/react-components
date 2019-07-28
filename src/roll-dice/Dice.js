@@ -3,18 +3,38 @@ import styled, { css } from 'styled-components'
 import { rotate } from '../_shared/cssAnimations'
 
 const animation = props =>
-  props.isRolling
+  props.isRolling && !props.locked
     ? css`${rotate} 0.3s ease-in-out infinite alternate`
     : 'none'
 
 const Die = styled.i`
+  cursor: pointer;
   margin: 0.5rem 1rem;
   padding: 0.25rem;
-  font-size: ${ ({ size }) => size+'rem' };
-  color: #f90;
+  font-size: ${ ({ size }) => size+"rem" };
+  color: ${ ({ locked }) => (locked) ? "#666" : "#f90" };
   animation: ${animation};
 `
 
-export default function Dice ({ face = 'one', isRolling = false, size = 8 }) {
-  return <Die className={`fas fa-dice-${face}`} isRolling={isRolling} size={size} />
+export default function Dice ({
+  face = 'one',
+  locked = false,
+  isRolling = false,
+  remainingRolls = 0,
+  size = 8,
+  index = 0,
+  dispatch = s => s
+}) {
+  return (
+    <Die
+      className={`fas fa-dice-${face}`}
+      isRolling={isRolling}
+      size={size}
+      locked={locked}
+      onClick={() => {
+        if(remainingRolls)
+          dispatch({ type: 'Toggle_Locked', payload: { index } })
+      }}
+    />
+  )
 }
