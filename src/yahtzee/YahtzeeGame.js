@@ -11,12 +11,19 @@ import { initialState, reducer, rollDice, evalScore, newGame } from './yahtzeeSt
 import { getFace } from '../_shared'
 
 const YahtzeeWrapper = styled.div`
-  width: 70vw;
-  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: top;
 `
 const Card = styled.div`
   background-color: #364651 !important;
   color: #fff;
+`
+const CardBody = styled.div`
+  padding: 0 !important;
+`
+const ScoreHistoryItem = styled.li`
+  background-color: #364651 !important;
 `
 const disabledStyles = `
   pointer-events: none;
@@ -29,7 +36,6 @@ const activeStyles = `
   color: #fff;
 `
 const ScoreRule = styled.li`
-  background-color: #364651;
   &:disable {
     ${disabledStyles}
   }
@@ -52,75 +58,110 @@ function GameOver({ isGameOver, totalScore, dispatch }) {
   )
 }
 
-function Dices ({ dices, dispatch, remainingRolls, isRolling }) {
+function Dices ({ totalScore, dices, dispatch, remainingRolls, isRolling, className = '' }) {
   let rollBtnText = isRolling
     ? 'Rolling ...'
     : `Roll: ${remainingRolls} Rolls Left`
 
   return (
-    <Card className='card w-100'>
+    <Card className={`card ${className}`}>
       <div className='card-header'>
         <h5 className='card-title display-4'>Yahtzee Game</h5>
       </div>
-      <div className='card-body'>
+      <CardBody className='card-body pt-2'>
         {dices.map( (dice, i) => (
           <Dice key={i}
             face={getFace(dice.value)}
             locked={dice.locked}
             remainingRolls={remainingRolls}
             isRolling={isRolling}
-            size={6}
+            size={4.5}
             index={i}
             dispatch={dispatch} />
         ))}
-      </div>
-      <div className='card-footer'>
-        <button className='btn btn-success btn-lg w-25'
+        <button className='btn btn-success btn-lg w-50 my-3'
           disabled={!remainingRolls || dices.every(dice => dice.locked)}
           onClick={ () => rollDice(dispatch) }
         >
           {rollBtnText}
         </button>
+      </CardBody>
+      <div className='card-footer'>
+        <h4 className='display-4'>Total Score: {totalScore}</h4>
       </div>
     </Card>
   )
 }
 
-function ScoreBoard ({ dispatch, score, scores }) {
+function ScoreHistory({ scoreHistory }) {
   return (
-    <Card className='card w-100'>
+    <Card className='card'>
       <div className='card-header'>
-        <h3 className='card-title display-4'>Total Score: {score}</h3>
+        <h4 className='card-title display-4'>Score History</h4>
       </div>
-      <div className='card-body'>
+      <CardBody className='card-body'>
+        <ul className='list-group'>
+          {scoreHistory.map(score => (
+            <ScoreHistoryItem key={score.date} className={`list-group-item flex-between`}>
+              <span>{ new Date(score.date).toLocaleString('en-gb') }</span>
+              <span>{score.value}</span>
+            </ScoreHistoryItem>
+          ))}
+        </ul>
+      </CardBody>
+      <div className='card-footer'>
+        <h4 className='display-4'>Max Score {Math.max(...scoreHistory.map(score => score.value))}</h4>
+      </div>
+    </Card>
+  )
+}
+
+function ScoreBoard ({ dispatch, scores, className }) {
+  return (
+    <Card className={`card ${className}`}>
+      <div className='card-header'>
+        <h4 className='card-title display-4'>Score Rules</h4>
+      </div>
+      <CardBody className='card-body'>
         <ul className='list-group'>
           {scores.map(score => (
             <ScoreRule
               key={score.name}
               value={score.value}
               className={`list-group-item flex-between pointer`}
-              onClick={() => evalScore(score.name, dispatch)}
+              onClick={() => evalScore(score.name, dispatch, scores)}
             >
               <span>{score.name.replace(/_/g, ' ')}</span>
               <span>{score.value === -1 ? score.description : score.value}</span>
             </ScoreRule>
           ))}
         </ul>
-      </div>
+      </CardBody>
     </Card>
   )
 }
 
 export default function YahtzeeGame () {
-  const [{ score, scores, dices, remainingRolls, isRolling, isGameOver }, dispatch] = React.useReducer(reducer, initialState);
+  const [{ score, scores, dices, remainingRolls, isRolling, isGameOver, scoreHistory }, dispatch] = React.useReducer(reducer, initialState);
   React.useEffect(() => {
     rollDice(dispatch)
   }, [])
   return (
-    <YahtzeeWrapper>
-      <Dices dispatch={dispatch} dices={dices} remainingRolls={remainingRolls} isRolling={isRolling} />
-      <ScoreBoard dispatch={dispatch} score={score} scores={scores} />
+    <>
+      <YahtzeeWrapper>
+        <div className='flex-b-50'>
+          <Dices
+            dispatch={dispatch}
+            totalScore={score}
+            dices={dices}
+            remainingRolls={remainingRolls}
+            isRolling={isRolling}
+          />
+          <ScoreHistory scoreHistory={scoreHistory} />
+        </div>
+        <ScoreBoard dispatch={dispatch} scores={scores} className='flex-b-50' />
+      </YahtzeeWrapper>
       <GameOver isGameOver={isGameOver} totalScore={score} dispatch={dispatch} />
-    </YahtzeeWrapper>
+    </>
   )
 }

@@ -1,6 +1,7 @@
 
 const DICES_LENGTH = 5
 const ROLLS_LENGTH = 3
+const getScoreHistory = () => JSON.parse(localStorage.getItem('scoreHistory')) || []
 
 //#region evaluate score ...
 // get the number of frequency in dices arr
@@ -82,11 +83,12 @@ export const rollDice = (dispatch) => {
     dispatch({ type: 'Toggle_IsRolling' })
   }, 1000)
 }
-export const evalScore = (ruleName, dispatch) => {
+export const evalScore = (ruleName, dispatch, scores) => {
   dispatch({ type: 'Eval_Score', payload: { ruleName } })
   dispatch({ type: 'Total_Score' })
   dispatch({ type: 'Is_Game_Over' })
-  rollDice(dispatch)
+  if(scores.some(score => score.value === -1))
+    rollDice(dispatch)
 }
 export const newGame = (dispatch) => {
   dispatch({ type: 'New_Game' })
@@ -96,6 +98,7 @@ export const newGame = (dispatch) => {
 
 //#region game state ...
 export const initialState = {
+  scoreHistory: getScoreHistory(),
   isGameOver: false,
   score: 0,
   remainingRolls: ROLLS_LENGTH,
@@ -176,8 +179,17 @@ export const initialState = {
 export const reducer = (state, { type, payload }) => {
   switch (type) {
     case 'New_Game':
-      return initialState;
+      return {
+        ...initialState,
+        scoreHistory: getScoreHistory()
+      };
     case 'Is_Game_Over':
+      if(state.scores.every(score => score.value > -1)) {
+        let _scoreHistory = state.scores.every(score => score.value > -1)
+          ? [...state.scoreHistory, { date: Date.now(), value: state.score }]
+          : state.scoreHistory
+        localStorage.setItem('scoreHistory', JSON.stringify(_scoreHistory))
+      }
       return {
         ...state,
         isGameOver: state.scores.every(score => score.value > -1)

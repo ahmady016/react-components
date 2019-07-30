@@ -9,8 +9,8 @@ const animation = props =>
 
 const Die = styled.i`
   cursor: pointer;
-  margin: 0.5rem 1rem;
   padding: 0.25rem;
+  margin: ${ ({ size }) => (size > 5) ? "0.5rem 1rem" : "0.5rem" };
   font-size: ${ ({ size }) => size+"rem" };
   color: ${ ({ locked }) => (locked) ? "#666" : "#f90" };
   animation: ${animation};
