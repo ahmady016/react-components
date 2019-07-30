@@ -1,7 +1,12 @@
 
 const DICES_LENGTH = 5
 const ROLLS_LENGTH = 3
-const getScoreHistory = () => JSON.parse(localStorage.getItem('scoreHistory')) || []
+const getScoreHistory = () => {
+  const scoreHistory = JSON.parse(localStorage.getItem('scoreHistory'))
+  return (scoreHistory && scoreHistory.length)
+    ? scoreHistory.sort((a,b) => new Date(b.date) - new Date(a.date))
+    : []
+}
 
 //#region evaluate score ...
 // get the number of frequency in dices arr

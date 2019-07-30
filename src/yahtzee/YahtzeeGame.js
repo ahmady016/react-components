@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import styled, { css } from 'styled-components'
+import dateFormat from 'dateformat'
 
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
@@ -104,7 +105,7 @@ function ScoreHistory({ scoreHistory = [] }) {
           { (scoreHistory.length)
             ? scoreHistory.map(score => (
                 <ScoreHistoryItem key={score.date} className={`list-group-item flex-between`}>
-                  <span>{ new Date(score.date).toLocaleString('en-gb') }</span>
+                  <span>{ dateFormat(score.date, 'ddd dd mmm yyyy hh:mm:ss tt') }</span>
                   <span>{score.value}</span>
                 </ScoreHistoryItem>
               ))
