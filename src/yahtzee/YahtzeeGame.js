@@ -93,7 +93,7 @@ function Dices ({ totalScore, dices, dispatch, remainingRolls, isRolling, classN
   )
 }
 
-function ScoreHistory({ scoreHistory }) {
+function ScoreHistory({ scoreHistory = [] }) {
   return (
     <Card className='card'>
       <div className='card-header'>
@@ -101,16 +101,25 @@ function ScoreHistory({ scoreHistory }) {
       </div>
       <CardBody className='card-body'>
         <ul className='list-group'>
-          {scoreHistory.map(score => (
-            <ScoreHistoryItem key={score.date} className={`list-group-item flex-between`}>
-              <span>{ new Date(score.date).toLocaleString('en-gb') }</span>
-              <span>{score.value}</span>
-            </ScoreHistoryItem>
-          ))}
+          { (scoreHistory.length)
+            ? scoreHistory.map(score => (
+                <ScoreHistoryItem key={score.date} className={`list-group-item flex-between`}>
+                  <span>{ new Date(score.date).toLocaleString('en-gb') }</span>
+                  <span>{score.value}</span>
+                </ScoreHistoryItem>
+              ))
+            : <p className='my-3'>No Score History Found ...</p>
+          }
         </ul>
       </CardBody>
       <div className='card-footer'>
-        <h4 className='display-4'>Max Score {Math.max(...scoreHistory.map(score => score.value))}</h4>
+        <h4 className='display-4'>
+          Max Score &nbsp;
+          { (scoreHistory.length)
+            ? Math.max(...scoreHistory.map(score => score.value))
+            : 0
+          }
+        </h4>
       </div>
     </Card>
   )
