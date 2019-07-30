@@ -38,15 +38,15 @@ const ScoreRule = styled.li`
 
 function GameOver({ isGameOver, totalScore, dispatch }) {
   return (
-    <Modal show={isGameOver}>
+    <Modal show={isGameOver} centered>
       <Modal.Header>
         <Modal.Title>Game Over</Modal.Title>
       </Modal.Header>
-      <Modal.Body>Total Score: {totalScore}</Modal.Body>
+      <Modal.Body>
+        <h3 className='display-4 text-center'>Total Score: {totalScore}</h3>
+      </Modal.Body>
       <Modal.Footer>
-        <Button variant="primary" onClick={() => newGame(dispatch)}>
-          Start New Game
-        </Button>
+        <Button variant="primary" onClick={() => newGame(dispatch)}>Start New Game</Button>
       </Modal.Footer>
     </Modal>
   )
