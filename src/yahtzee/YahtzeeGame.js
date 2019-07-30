@@ -1,26 +1,56 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import styled, { css } from 'styled-components'
+
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
+
 import Dice from '../roll-dice/Dice'
 
-import { initialState, reducer, rollDice, evalScore } from './yahtzeeState'
+import { initialState, reducer, rollDice, evalScore, newGame } from './yahtzeeState'
 import { getFace } from '../_shared'
 
 const YahtzeeWrapper = styled.div`
   width: 70vw;
   margin: auto;
 `
+const Card = styled.div`
+  background-color: #364651 !important;
+  color: #fff;
+`
 const disabledStyles = `
   pointer-events: none;
   background-color: #cecece !important;
   color: #797979;
 `
+const activeStyles = `
+  cursor: pointer;
+  background-color: #364651 !important;
+  color: #fff;
+`
 const ScoreRule = styled.li`
+  background-color: #364651;
   &:disable {
     ${disabledStyles}
   }
-  ${ ({ value }) => value > -1 ? css`${disabledStyles}` : ''}
+  ${ ({ value }) => value > -1 ? css`${disabledStyles}` : css`${activeStyles}`}
 `
+
+function GameOver({ isGameOver, totalScore, dispatch }) {
+  return (
+    <Modal show={isGameOver}>
+      <Modal.Header>
+        <Modal.Title>Game Over</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>Total Score: {totalScore}</Modal.Body>
+      <Modal.Footer>
+        <Button variant="primary" onClick={() => newGame(dispatch)}>
+          Start New Game
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  )
+}
 
 function Dices ({ dices, dispatch, remainingRolls, isRolling }) {
   let rollBtnText = isRolling
@@ -28,7 +58,7 @@ function Dices ({ dices, dispatch, remainingRolls, isRolling }) {
     : `Roll: ${remainingRolls} Rolls Left`
 
   return (
-    <div className='card w-100'>
+    <Card className='card w-100'>
       <div className='card-header'>
         <h5 className='card-title display-4'>Yahtzee Game</h5>
       </div>
@@ -52,13 +82,13 @@ function Dices ({ dices, dispatch, remainingRolls, isRolling }) {
           {rollBtnText}
         </button>
       </div>
-    </div>
+    </Card>
   )
 }
 
 function ScoreBoard ({ dispatch, score, scores }) {
   return (
-    <div className='card w-100'>
+    <Card className='card w-100'>
       <div className='card-header'>
         <h3 className='card-title display-4'>Total Score: {score}</h3>
       </div>
@@ -77,12 +107,12 @@ function ScoreBoard ({ dispatch, score, scores }) {
           ))}
         </ul>
       </div>
-    </div>
+    </Card>
   )
 }
 
 export default function YahtzeeGame () {
-  const [{ score, scores, dices, remainingRolls, isRolling }, dispatch] = React.useReducer(reducer, initialState);
+  const [{ score, scores, dices, remainingRolls, isRolling, isGameOver }, dispatch] = React.useReducer(reducer, initialState);
   React.useEffect(() => {
     rollDice(dispatch)
   }, [])
@@ -90,6 +120,7 @@ export default function YahtzeeGame () {
     <YahtzeeWrapper>
       <Dices dispatch={dispatch} dices={dices} remainingRolls={remainingRolls} isRolling={isRolling} />
       <ScoreBoard dispatch={dispatch} score={score} scores={scores} />
+      <GameOver isGameOver={isGameOver} totalScore={score} dispatch={dispatch} />
     </YahtzeeWrapper>
   )
 }

@@ -85,12 +85,18 @@ export const rollDice = (dispatch) => {
 export const evalScore = (ruleName, dispatch) => {
   dispatch({ type: 'Eval_Score', payload: { ruleName } })
   dispatch({ type: 'Total_Score' })
+  dispatch({ type: 'Is_Game_Over' })
+  rollDice(dispatch)
+}
+export const newGame = (dispatch) => {
+  dispatch({ type: 'New_Game' })
   rollDice(dispatch)
 }
 //#endregion
 
 //#region game state ...
 export const initialState = {
+  isGameOver: false,
   score: 0,
   remainingRolls: ROLLS_LENGTH,
   isRolling: false,
@@ -169,6 +175,13 @@ export const initialState = {
 
 export const reducer = (state, { type, payload }) => {
   switch (type) {
+    case 'New_Game':
+      return initialState;
+    case 'Is_Game_Over':
+      return {
+        ...state,
+        isGameOver: state.scores.every(score => score.value > -1)
+      };
     case 'Total_Score':
       return {
         ...state,
