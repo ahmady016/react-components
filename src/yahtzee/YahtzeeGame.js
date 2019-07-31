@@ -13,7 +13,7 @@ import { getFace } from '../_shared'
 
 const YahtzeeWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: top;
 `
 const Card = styled.div`
@@ -76,11 +76,11 @@ function Dices ({ totalScore, dices, dispatch, remainingRolls, isRolling, classN
             locked={dice.locked}
             remainingRolls={remainingRolls}
             isRolling={isRolling}
-            size={4.5}
+            size={5}
             index={i}
             dispatch={dispatch} />
         ))}
-        <button className='btn btn-success btn-lg w-50 my-3'
+        <button className='btn btn-success btn-lg w-40 my-3'
           disabled={!remainingRolls || dices.every(dice => dice.locked)}
           onClick={ () => rollDice(dispatch) }
         >
@@ -105,7 +105,7 @@ function ScoreHistory({ scoreHistory = [] }) {
           { (scoreHistory.length)
             ? scoreHistory.map(score => (
                 <ScoreHistoryItem key={score.date} className={`list-group-item flex-between`}>
-                  <span>{ dateFormat(score.date, 'ddd dd mmm yyyy hh:mm:ss tt') }</span>
+                  <span>{ dateFormat(score.date, 'ddd dd mmm yyyy hh:MM:ss tt') }</span>
                   <span>{score.value}</span>
                 </ScoreHistoryItem>
               ))
@@ -159,7 +159,7 @@ export default function YahtzeeGame () {
   return (
     <>
       <YahtzeeWrapper>
-        <div className='flex-b-50'>
+        <div className='flex-b-55'>
           <Dices
             dispatch={dispatch}
             totalScore={score}
@@ -169,7 +169,7 @@ export default function YahtzeeGame () {
           />
           <ScoreHistory scoreHistory={scoreHistory} />
         </div>
-        <ScoreBoard dispatch={dispatch} scores={scores} className='flex-b-50' />
+        <ScoreBoard dispatch={dispatch} scores={scores} className='flex-b-40' />
       </YahtzeeWrapper>
       <GameOver isGameOver={isGameOver} totalScore={score} dispatch={dispatch} />
     </>

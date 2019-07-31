@@ -13,7 +13,7 @@ export default function App () {
         <h1>React Components</h1>
         <hr />
       </header>
-      <div className='container text-center'>
+      <div className='container-fluid text-center'>
         {/* <RollDice /> */}
         <YahtzeeGame />
       </div>
