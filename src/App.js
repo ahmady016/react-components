@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 
-import { BrowserRouter, Switch, Route, Redirect, Link } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Redirect, Link, NavLink } from 'react-router-dom'
 import posed, { PoseGroup } from 'react-pose'
 import styled from 'styled-components'
 import Sidebar from 'react-sidebar'
@@ -41,10 +41,28 @@ const SidebarIcon = styled.i`
   font-size: 2rem;
   color: #fff;
 `
+const SidebarItem = styled.li`
+  border-radius: 0 !important;
+  border-top: none !important;
+  background-color: transparent !important;
+`
 
-function SidebarContent () {
+function SidebarContent() {
   return (
-    <h3>sidebar content ...</h3>
+    <ul className='list-group'>
+      <SidebarItem className='list-group-item'>
+        <NavLink className='text-light' to='/roll-dice'>
+          <i class="fab fa-bandcamp mr-2"></i>
+          Roll Dice
+        </NavLink>
+      </SidebarItem>
+      <SidebarItem className='list-group-item'>
+        <NavLink className='text-light' to='/yahtzee-game'>
+          <i class="fab fa-bandcamp mr-2"></i>
+          Yahtzee Game
+        </NavLink>
+      </SidebarItem>
+    </ul>
   )
 }
 
@@ -80,7 +98,7 @@ const Routes = ({ location, setSidebarOpened }) => (
   </>
 )
 
-export default function App () {
+export default function App() {
   const [sidebarOpened, setSidebarOpened] = React.useState(false)
   const [sidebarDocked, setSidebarDocked] = React.useState(mediaQuery.matches)
 
@@ -91,10 +109,9 @@ export default function App () {
         open={sidebarOpened}
         onSetOpen={setSidebarOpened}
         docked={sidebarDocked}
-        sidebarClassName='bg-secondary text-light w-30 mt-34 p-1'
-        contentClassName=''
+        sidebarClassName='bg-secondary text-light w-30 mt-34'
       >
-        <Route render={(props) => (<Routes {...props} setSidebarOpened={setSidebarOpened} />)} />
+        <Route render={props => <Routes {...props} setSidebarOpened={setSidebarOpened} />} />
       </Sidebar>
     </BrowserRouter>
   )
