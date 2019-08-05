@@ -44,20 +44,21 @@ const SidebarIcon = styled.i`
 const SidebarItem = styled.li`
   border-radius: 0 !important;
   border-top: none !important;
-  background-color: transparent !important;
 `
+
+const isActive = (path) => window.location.href.includes(path)
 
 function SidebarContent() {
   return (
     <ul className='list-group'>
-      <SidebarItem className='list-group-item'>
-        <NavLink className='text-light' to='/roll-dice'>
+      <SidebarItem className={`list-group-item ${isActive('/roll-dice') ? 'active' : ''}`}>
+        <NavLink className={isActive('/roll-dice') ? 'text-light' : ''} to='/roll-dice'>
           <i class="fab fa-bandcamp mr-2"></i>
           Roll Dice
         </NavLink>
       </SidebarItem>
-      <SidebarItem className='list-group-item'>
-        <NavLink className='text-light' to='/yahtzee-game'>
+      <SidebarItem className={`list-group-item ${isActive('/yahtzee-game') ? 'active' : ''}`}>
+        <NavLink className={isActive('/yahtzee-game') ? 'text-light' : ''} to='/yahtzee-game'>
           <i class="fab fa-bandcamp mr-2"></i>
           Yahtzee Game
         </NavLink>
@@ -109,7 +110,7 @@ export default function App() {
         open={sidebarOpened}
         onSetOpen={setSidebarOpened}
         docked={sidebarDocked}
-        sidebarClassName='bg-secondary text-light w-30 mt-34'
+        sidebarClassName='bg-light w-25 mt-34'
       >
         <Route render={props => <Routes {...props} setSidebarOpened={setSidebarOpened} />} />
       </Sidebar>
