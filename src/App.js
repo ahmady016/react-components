@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Redirect, Link } from 'react-router-dom'
 import posed, { PoseGroup } from 'react-pose'
+import styled from 'styled-components'
+import Sidebar from 'react-sidebar'
 
 import addExtensions from './extensions'
 import shortid from 'shortid'
@@ -11,6 +13,8 @@ import RollDice from './roll-dice/RollDice'
 import YahtzeeGame from './yahtzee/YahtzeeGame'
 
 addExtensions()
+
+const mediaQuery = window.matchMedia(`(min-width: 2000px)`)
 
 const AnimationWrapper = posed.div({
   enter: {
@@ -28,13 +32,41 @@ const AnimationWrapper = posed.div({
   }
 });
 
-const routes = ({ location }) => (
-  <>
+const Container = styled.div`
+  margin: 4rem 0 0.6rem;
+`
+const SidebarIcon = styled.i`
+  cursor: pointer;
+  margin-right: 1rem;
+  font-size: 2rem;
+  color: #fff;
+`
+
+function SidebarContent () {
+  return (
+    <h3>sidebar content ...</h3>
+  )
+}
+
+function Header({ setSidebarOpened }) {
+  return (
     <header>
-      <h1>React Components</h1>
-      <hr />
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <SidebarIcon className="fas fa-bars"
+          onClick={() => setSidebarOpened((opened) => !opened)}>
+        </SidebarIcon>
+        <Link className='navbar-brand' to='/roll-dice'>
+          React Components
+        </Link>
+      </nav>
     </header>
-    <div className='container-fluid text-center'>
+  )
+}
+
+const Routes = ({ location, setSidebarOpened }) => (
+  <>
+    <Header setSidebarOpened={setSidebarOpened} />
+    <Container className='container-fluid text-center'>
       <PoseGroup>
         <AnimationWrapper key={shortid.generate()}>
           <Switch location={location}>
@@ -44,14 +76,26 @@ const routes = ({ location }) => (
           </Switch>
         </AnimationWrapper>
       </PoseGroup>
-    </div>
+    </Container>
   </>
 )
 
 export default function App () {
+  const [sidebarOpened, setSidebarOpened] = React.useState(false)
+  const [sidebarDocked, setSidebarDocked] = React.useState(mediaQuery.matches)
+
   return (
     <BrowserRouter>
-      <Route render={routes} />
+      <Sidebar
+        sidebar={<SidebarContent />}
+        open={sidebarOpened}
+        onSetOpen={setSidebarOpened}
+        docked={sidebarDocked}
+        sidebarClassName='bg-secondary text-light w-30 mt-34 p-1'
+        contentClassName=''
+      >
+        <Route render={(props) => (<Routes {...props} setSidebarOpened={setSidebarOpened} />)} />
+      </Sidebar>
     </BrowserRouter>
   )
 }
