@@ -82,26 +82,40 @@ function Header({ setSidebarOpened }) {
   )
 }
 
-const Routes = ({ location, setSidebarOpened }) => (
-  <>
-    <Header setSidebarOpened={setSidebarOpened} />
-    <Container className='container-fluid text-center'>
-      <PoseGroup>
-        <AnimationWrapper key={shortid.generate()}>
-          <Switch location={location}>
-            <Route path="/roll-dice" component={RollDice} />
-            <Route path="/yahtzee-game" component={YahtzeeGame} />
-            <Redirect to="/roll-dice" />
-          </Switch>
-        </AnimationWrapper>
-      </PoseGroup>
-    </Container>
-  </>
-)
+function Routes({ location, setSidebarOpened }) {
+  return (
+    <>
+      <Header setSidebarOpened={setSidebarOpened} />
+      <Container className='container-fluid text-center'>
+        <PoseGroup>
+          <AnimationWrapper key={shortid.generate()}>
+            <Switch location={location}>
+              <Route path="/roll-dice" component={RollDice} />
+              <Route path="/yahtzee-game" component={YahtzeeGame} />
+              <Redirect to="/roll-dice" />
+            </Switch>
+          </AnimationWrapper>
+        </PoseGroup>
+      </Container>
+    </>
+  )
+}
 
 function App({ location }) {
+  // sidebar state
   const [sidebarOpened, setSidebarOpened] = React.useState(false)
   const [sidebarDocked, setSidebarDocked] = React.useState(mediaQuery.matches)
+  // handle media query changed
+  const mediaQueryChanged = React.useCallback( () => {
+    setSidebarDocked(mediaQuery.matches)
+    setSidebarOpened(false)
+  }, [setSidebarOpened, setSidebarDocked])
+  // register mediaQueryChanged handler to the mediaQuery events
+  // and remove it when component unmounted
+  React.useEffect(() => {
+    mediaQuery.addListener(mediaQueryChanged)
+    return () => void mediaQuery.removeListener(mediaQueryChanged)
+  },[mediaQueryChanged])
 
   return (
     <Sidebar
