@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 
-import { BrowserRouter, Switch, Route, Redirect, Link, NavLink } from 'react-router-dom'
+import { withRouter, Switch, Route, Redirect, Link, NavLink } from 'react-router-dom'
 import posed, { PoseGroup } from 'react-pose'
 import styled from 'styled-components'
 import Sidebar from 'react-sidebar'
@@ -46,20 +46,20 @@ const SidebarItem = styled.li`
   border-top: none !important;
 `
 
-const isActive = (path) => window.location.href.includes(path)
+const isActive = (path) => window.location.pathname.includes(path)
 
 function SidebarContent() {
   return (
     <ul className='list-group'>
       <SidebarItem className={`list-group-item ${isActive('/roll-dice') ? 'active' : ''}`}>
         <NavLink className={isActive('/roll-dice') ? 'text-light' : ''} to='/roll-dice'>
-          <i class="fab fa-bandcamp mr-2"></i>
+          <i className="fab fa-bandcamp mr-2"></i>
           Roll Dice
         </NavLink>
       </SidebarItem>
       <SidebarItem className={`list-group-item ${isActive('/yahtzee-game') ? 'active' : ''}`}>
         <NavLink className={isActive('/yahtzee-game') ? 'text-light' : ''} to='/yahtzee-game'>
-          <i class="fab fa-bandcamp mr-2"></i>
+          <i className="fab fa-bandcamp mr-2"></i>
           Yahtzee Game
         </NavLink>
       </SidebarItem>
@@ -70,7 +70,7 @@ function SidebarContent() {
 function Header({ setSidebarOpened }) {
   return (
     <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <SidebarIcon className="fas fa-bars"
           onClick={() => setSidebarOpened((opened) => !opened)}>
         </SidebarIcon>
@@ -99,21 +99,21 @@ const Routes = ({ location, setSidebarOpened }) => (
   </>
 )
 
-export default function App() {
+function App({ location }) {
   const [sidebarOpened, setSidebarOpened] = React.useState(false)
   const [sidebarDocked, setSidebarDocked] = React.useState(mediaQuery.matches)
 
   return (
-    <BrowserRouter>
-      <Sidebar
-        sidebar={<SidebarContent />}
-        open={sidebarOpened}
-        onSetOpen={setSidebarOpened}
-        docked={sidebarDocked}
-        sidebarClassName='bg-light w-25 mt-34'
-      >
-        <Route render={props => <Routes {...props} setSidebarOpened={setSidebarOpened} />} />
-      </Sidebar>
-    </BrowserRouter>
+    <Sidebar
+      sidebar={<SidebarContent location={location} />}
+      open={sidebarOpened}
+      onSetOpen={setSidebarOpened}
+      docked={sidebarDocked}
+      sidebarClassName='bg-light w-25 mt-34'
+    >
+      <Route render={props => <Routes {...props} setSidebarOpened={setSidebarOpened} />} />
+    </Sidebar>
   )
 }
+
+export default withRouter(App)
