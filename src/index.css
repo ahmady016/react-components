@@ -50,6 +50,10 @@ code {
   display: flex;
   justify-content: space-around;
 }
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
 .flex-b-25 {
   flex-basis: 25%;
 }
@@ -127,6 +131,9 @@ code {
 }
 .py-3 {
   padding: 3rem 0;
+}
+.p-0 {
+  padding: 0 !important;
 }
 .p-1 {
   padding: 1rem !important;

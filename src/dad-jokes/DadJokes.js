@@ -44,7 +44,7 @@ const fetchJokes = async (jokes, setState) => {
 }
 
 const JokesCard = styled.div`
-  width: 62%;
+  width: 70%;
   margin: 1rem auto !important;
 `
 const CardHeader = styled.div`
@@ -52,18 +52,36 @@ const CardHeader = styled.div`
 `
 const CardBody = styled.div`
   background-color: #008744 !important;
-  height: 66vh;
+  height: 60vh;
   overflow-y: auto;
 `
 const CardFooter = styled.div`
   background-color: #0057e7 !important;
 `
+const VoteIcon = styled.i`
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 0.6rem !important;
+`
+const VoteValue = styled.span`
+  font-size: 1.5rem;
+  line-height: 1.5rem !important;
+  position: relative;
+  top: -2px;
+`
 
 function Joke({ id, joke, vote }) {
   return (
-    <div className='alert'>
-      <span>{joke}</span>
-      <span>{vote}</span>
+    <div className='alert flex-between px-1'>
+      <div className='flex-column'>
+        <VoteIcon className="fas fa-chevron-up"></VoteIcon>
+        <VoteValue>{vote}</VoteValue>
+        <VoteIcon className="fas fa-chevron-down"></VoteIcon>
+      </div>
+      <div className=''>{joke}</div>
+      <div className=''>
+        <i className="em em-joy sm"></i>
+      </div>
     </div>
   )
 }
@@ -86,7 +104,7 @@ export default function DadJokes() {
         <span className='card-title display-4 text-dark font-w-6'>Dad Jokes</span>
         <button className='btn btn-success btn-lg font-w-6'>New Jokes</button>
       </CardHeader>
-      <CardBody className='card-body text-light scroll'>
+      <CardBody className='card-body text-light scroll p-0'>
         { (state.loading)
           ? <Spinner />
           : state.jokes.map(joke => <Joke key={joke.id} {...joke} />)
