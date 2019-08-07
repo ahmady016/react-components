@@ -2,6 +2,8 @@
 @import 'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css';
 /* font awesome icons v5.5.0 */
 @import 'https://use.fontawesome.com/releases/v5.5.0/css/all.css';
+/* EMOJI CSS */
+@import 'https://afeld.github.io/emoji-css/emoji.css';
 
 body {
   margin: 0;
@@ -91,6 +93,21 @@ code {
 .lg {
   font-size: 6rem !important;
   line-height: inherit !important;
+}
+.font-w-4 {
+  font-weight: 400 !important;
+}
+.font-w-5 {
+  font-weight: 500 !important;
+}
+.font-w-6 {
+  font-weight: 600 !important;
+}
+.font-w-7 {
+  font-weight: 700 !important;
+}
+.font-w-8 {
+  font-weight: 800 !important;
 }
 .px-1 {
   padding: 0 1rem;

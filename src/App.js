@@ -11,6 +11,7 @@ import shortid from 'shortid'
 
 import RollDice from './roll-dice/RollDice'
 import YahtzeeGame from './yahtzee/YahtzeeGame'
+import DadJokes from './dad-jokes/DadJokes'
 
 addExtensions()
 
@@ -63,6 +64,12 @@ function SidebarContent() {
           Yahtzee Game
         </NavLink>
       </SidebarItem>
+      <SidebarItem className={`list-group-item ${isActive('/dad-jokes') ? 'active' : ''}`}>
+        <NavLink className={isActive('/dad-jokes') ? 'text-light' : ''} to='/dad-jokes'>
+          <i className="fab fa-bandcamp mr-2"></i>
+          Dad Jokes
+        </NavLink>
+      </SidebarItem>
     </ul>
   )
 }
@@ -92,6 +99,7 @@ function Routes({ location, setSidebarOpened }) {
             <Switch location={location}>
               <Route path="/roll-dice" component={RollDice} />
               <Route path="/yahtzee-game" component={YahtzeeGame} />
+              <Route path="/dad-jokes" component={DadJokes} />
               <Redirect to="/roll-dice" />
             </Switch>
           </AnimationWrapper>
