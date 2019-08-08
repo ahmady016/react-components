@@ -86,14 +86,13 @@ const CardFooter = styled.div`
 `
 const VoteIcon = styled.i`
   cursor: pointer;
-  font-size: 2rem;
+  font-size: 2.5rem;
+  line-height: 1.5rem !important;
 `
 const VoteValue = styled.span`
   font-size: 1.8rem;
   font-weight: 600;
   line-height: 1.5rem !important;
-  position: relative;
-  top: -2px;
   color: ${ ({ vote }) => getVoteStyles(vote).color };
 `
 //#endregion
@@ -103,11 +102,11 @@ function Joke({ doVote, id, joke, vote }) {
   return (
     <div className="flex-between p-05-1 border-b-1">
       <div className="flex-column">
-        <VoteIcon className="fas fa-chevron-up"
+        <VoteIcon className="fas fa-caret-up"
           onClick={() => doVote(id, +1)}
         />
         <VoteValue vote={vote}>{vote}</VoteValue>
-        <VoteIcon className="fas fa-chevron-down"
+        <VoteIcon className="fas fa-caret-down"
           onClick={() => doVote(id, -1)}
         />
       </div>
