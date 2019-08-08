@@ -34,15 +34,17 @@ const getJokes = async (seenJokes = new Set()) => {
 }
 
 const fetchJokes = async (jokes, setState) => {
-  setState((_state) => ({
-    ..._state,
-    loading: true
-  }))
+  setState(
+    state => ({
+      ...state,
+      loading: true
+    })
+  )
   const newJokes = await getJokes( new Set(jokes.map(joke => joke.joke)) )
   setState(
-    _state => ({
+    state => ({
       loading: false,
-      jokes: [..._state.jokes, ...newJokes]
+      jokes: [...state.jokes, ...newJokes]
     })
   )
 }
@@ -153,7 +155,12 @@ export default function DadJokes() {
       <CardHeader className='card-header flex-around'>
         <i className="em em-joy font-s-25"></i>
         <span className='card-title display-4 text-dark font-w-6'>Dad Jokes</span>
-        <button className='btn btn-success btn-lg font-w-6'>New Jokes</button>
+        <button
+          className='btn btn-success btn-lg font-w-6'
+          onClick={() => fetchJokes(state.jokes, setState)}
+        >
+          New Jokes
+        </button>
       </CardHeader>
       <CardBody className='card-body text-light scroll p-0'>
         { (state.loading)
