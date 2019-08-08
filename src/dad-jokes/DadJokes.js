@@ -45,14 +45,15 @@ const fetchJokes = async (jokes, setState) => {
 
 const JokesCard = styled.div`
   width: 70%;
-  margin: 1rem auto !important;
+  margin: auto !important;
 `
 const CardHeader = styled.div`
   background-color: #ffa700 !important;
+  padding: 0 !important;
 `
 const CardBody = styled.div`
   background-color: #008744 !important;
-  height: 60vh;
+  height: 67vh;
   overflow-y: auto;
 `
 const CardFooter = styled.div`
@@ -60,11 +61,11 @@ const CardFooter = styled.div`
 `
 const VoteIcon = styled.i`
   cursor: pointer;
-  font-size: 1.5rem;
-  line-height: 0.6rem !important;
+  font-size: 2rem;
+  line-height: 1rem !important;
 `
 const VoteValue = styled.span`
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   line-height: 1.5rem !important;
   position: relative;
   top: -2px;
@@ -72,15 +73,15 @@ const VoteValue = styled.span`
 
 function Joke({ id, joke, vote }) {
   return (
-    <div className='alert flex-between px-1'>
+    <div className='flex-between p-05-1 border-b-1'>
       <div className='flex-column'>
         <VoteIcon className="fas fa-chevron-up"></VoteIcon>
         <VoteValue>{vote}</VoteValue>
         <VoteIcon className="fas fa-chevron-down"></VoteIcon>
       </div>
-      <div className=''>{joke}</div>
+      <div className='content-text flex-g-1 mx-3'>{joke}</div>
       <div className=''>
-        <i className="em em-joy sm"></i>
+        <i className="em em-joy font-s-15"></i>
       </div>
     </div>
   )
@@ -100,7 +101,7 @@ export default function DadJokes() {
   return (
     <JokesCard className='card'>
       <CardHeader className='card-header flex-around'>
-        <i className="em em-joy sm"></i>
+        <i className="em em-joy font-s-25"></i>
         <span className='card-title display-4 text-dark font-w-6'>Dad Jokes</span>
         <button className='btn btn-success btn-lg font-w-6'>New Jokes</button>
       </CardHeader>
