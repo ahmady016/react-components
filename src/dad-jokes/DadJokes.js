@@ -1,4 +1,6 @@
 import React from 'react'
+
+import posed, { PoseGroup } from 'react-pose'
 import axios from 'axios'
 import styled from 'styled-components'
 import shortid from 'shortid'
@@ -152,6 +154,10 @@ const CardBody = styled.div`
   background-color: #008744 !important;
   overflow-y: auto;
 `
+const JokeItem = posed.div({
+  enter: { opacity: 1, transition: { duration: 500 } },
+  exit:  { opacity: 0, transition: { duration: 1000 } }
+})
 const VoteIcon = styled.i`
   cursor: pointer;
   font-size: 2.5rem;
@@ -166,24 +172,29 @@ const VoteValue = styled.span`
 //#endregion
 
 //#region jokes components
-function Joke({ doVote, id, joke, vote }) {
+function JokeList({ jokes, doVote }) {
   return (
-    <div className="flex-between p-05-1 border-b-1">
-      <div className="flex-column">
-        <VoteIcon className="fas fa-caret-up"
-          onClick={() => doVote(id, +1)}
-        />
-        <VoteValue vote={vote}>{vote}</VoteValue>
-        <VoteIcon className="fas fa-caret-down"
-          onClick={() => doVote(id, -1)}
-        />
-      </div>
-      <div className="content-text flex-g-1 mx-3">{joke}</div>
-      <div className="">
-        <i className={`font-s-15 ${getVoteStyles(vote).emoji}`} />
-      </div>
-    </div>
-  );
+    <PoseGroup>
+      { jokes.map( ({ id, joke, vote }) => (
+          <JokeItem key={id} className="flex-between p-05-1 border-b-1">
+            <div className="flex-column">
+              <VoteIcon className="fas fa-caret-up"
+                onClick={() => doVote(id, +1)}
+              />
+              <VoteValue vote={vote}>{vote}</VoteValue>
+              <VoteIcon className="fas fa-caret-down"
+                onClick={() => doVote(id, -1)}
+              />
+            </div>
+            <div className="content-text flex-g-1 mx-3">{joke}</div>
+            <div className="">
+              <i className={`font-s-15 ${getVoteStyles(vote).emoji}`} />
+            </div>
+          </JokeItem>
+        ))
+      }
+    </PoseGroup>
+  )
 }
 
 export default function DadJokes() {
@@ -254,7 +265,7 @@ export default function DadJokes() {
         <CardBody className='card-body text-light scroll p-0'>
           { (state.loading)
             ? <Spinner />
-            : state.jokes.map(joke => <Joke key={joke.id} doVote={doVote} {...joke} />)
+            : <JokeList jokes={state.jokes.sort((a,b) => b.vote - a.vote)} doVote={doVote} />
           }
         </CardBody>
       </JokesCard>
