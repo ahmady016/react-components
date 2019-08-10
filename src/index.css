@@ -54,6 +54,12 @@ code {
   display: flex;
   flex-direction: column;
 }
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .flex-g-1 {
   flex-grow: 1;
 }
@@ -78,14 +84,20 @@ code {
 .flex-b-30 {
   flex-basis: 30%;
 }
+.flex-b-35 {
+  flex-basis: 35%;
+}
 .flex-b-40 {
   flex-basis: 40%;
 }
 .flex-b-60 {
   flex-basis: 60%;
 }
+.flex-b-65 {
+  flex-basis: 65%;
+}
 .flex-b-55 {
-  flex-basis: 50%;
+  flex-basis: 55%;
 }
 .pointer {
   cursor: pointer;
@@ -191,13 +203,19 @@ code {
   margin-top: 3.5rem;
 }
 .mb-1 {
-  margin-bottom: 1rem;
+  margin-bottom: 1rem !important;
+}
+.mb-15 {
+  margin-bottom: 1.5rem !important;
 }
 .mb-2 {
-  margin-bottom: 2rem;
+  margin-bottom: 2rem !important;
+}
+.mb-25 {
+  margin-bottom: 2.5rem;
 }
 .mb-3 {
-  margin-bottom: 3rem;
+  margin-bottom: 3rem !important;
 }
 .my-1 {
   margin: 1rem 0;
